@@ -1,2 +1,0 @@
-from shutil import which
-
