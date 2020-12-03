@@ -1,12 +1,11 @@
 import hashlib
 import json
 import os
-import subprocess
 from datetime import datetime
 from multiprocessing import Process
 from shutil import which
 
-import demjson
+from web3 import Web3, HTTPProvider
 
 
 class Node:
@@ -23,6 +22,7 @@ class Node:
         self.http = "http://127.0.0.1:{}".format(rpcport)
         self.genesisFile = genesisFile if genesisFile != '' else None
         self._create_node()
+        self.w3 = None
 
     def start_node(self):
         command = "geth --identity {0} --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" --port " \
@@ -33,6 +33,7 @@ class Node:
 
         self.process = Process(target=self._start_process, args=(command,))
         self.process.start()
+        self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
 
     @staticmethod
     def _start_process(command):
@@ -90,68 +91,33 @@ class Node:
         else:
             os.system("geth --datadir \"{0}\" init \"{1}\" ".format(self.datadir, self.genesisFile))
 
-    def get_enode(self):
-        result = subprocess.check_output(("geth attach {} --exec \"admin.nodeInfo\" ".format(self.http)), shell=True)
-        data = demjson.decode(result.decode('utf-8'))
-        return data['enode']
-
-    def add_node(self, enode):
-        enode_address = enode
-        enode_address = enode.split("@")
-        ending = enode_address[1].split("?")
-        ip = ending[0].split(":")
-        ip[0] = "[::]"
-        ip = ":".join(ip)
-        enode_address = "\\\"" + enode_address[0] + "@" + ip + "?" + ending[1] + "\\\""
-
-        # print("geth attach {0} --exec \"admin.addPeer({1})\" ".format(self.http, enode_address))
-
-        result = subprocess.check_output(
-            ("geth attach {0} --exec \"admin.addPeer({1})\" ".format(self.http, enode_address)), shell=True)
-
-        data = result.decode('utf-8')
-        # print(data)
-
-        result = subprocess.check_output(
-            ("geth attach {0} --exec \"net.peerCount\" ".format(self.http)), shell=True)
-
-        data = result.decode('utf-8')
-        print("Amount of peers: {}".format(data))
-
-    def start_miner(self):
-        result = subprocess.check_output(
-            ("geth attach {0} --exec \"miner.setEtherbase(eth.accounts[0])\" ".format(self.http)), shell=True)
-
-        data = result.decode('utf-8')
-        print(data)
-
-        result = subprocess.check_output(
-            ("geth attach {0} --exec \"miner.start()\" ".format(self.http)), shell=True)
-
-        data = result.decode('utf-8')
-        print(data)
+    def add_node(self, enode, localhost=True):
+        if localhost:
+            enode_address = enode
+            enode_address = enode.split("@")
+            ending = enode_address[1].split("?")
+            ip = ending[0].split(":")
+            ip[0] = "[::]"
+            ip = ":".join(ip)
+            enode_address = enode_address[0] + "@" + ip + "?" + ending[1]
+        else:
+            enode_address = enode
+        count = self.w3.net.peer_count
+        self.w3.geth.admin.add_peer(enode_address)
+        if count + 1 == self.w3.net.peer_count:
+            return True
+        else:
+            return False
 
     def get_first_account(self):
-        result = subprocess.check_output(
-            ("geth attach {0} --exec \"eth.accounts[0]\" ".format(self.http)), shell=True)
-
-        data = result.decode('utf-8')
-        data = data.replace('"', "")
+        account = self.w3.eth.accounts[0]
         if os.path.exists("{0}\\pass_first.txt".format(self.datadir)):
             with open("{0}\\pass_first.txt".format(self.datadir), "r") as pass_file:
                 passwd = pass_file.read()
         else:
             passwd = ''
 
-        return data.strip(), passwd.strip()
-
-    def unlock_account(self, account, password):
-        command = (
-            "geth attach {} --exec \"personal.unlockAccount(\\\"{}\\\", \\\"{}\\\")\" ".format(self.http, account,
-                                                                                               password))
-        result = subprocess.check_output(command, shell=True)
-
-        data = result.decode('utf-8')
+        return account, passwd.strip()
 
     def configure_truffle(self, config_file=None):
         if config_file is not None:
@@ -166,33 +132,3 @@ class Node:
             template = template.replace('<FROM>', "\"{}\"".format(self.get_first_account()[0]))
             with open('{}\\truffle-config.js'.format(self.datadir), 'w+') as original_config_f:
                 original_config_f.write(template)
-
-    def deploy_contract(self, contract_location):
-        if not os.path.exists(contract_location):
-            print('invalid contract file')
-        else:
-            os.system('cp {} {}\\contracts'.format(contract_location, self.datadir))
-            filename = contract_location.split('\\')[-1]
-            contract_name = filename.split('.')[0]
-            with open('{}\\migrations\\1_initial_migration.js'.format(self.datadir), 'r+') as migrations_f:
-                migrations = migrations_f.read()
-                migrations = migrations.split(";")
-                new_const = "const {0} = artifacts.require(\"{0}\")".format(contract_name)
-                new_deployer = "deployer.deploy({0})".format(contract_name)
-
-                #                 get index of the const's to insert hte new one
-                indices = [i for i, s in enumerate(migrations) if 'artifacts.require' in s]
-                migrations.insert(indices[0], new_const)
-
-                indices = [i for i, s in enumerate(migrations) if 'deployer.deploy' in s]
-
-                migrations.insert(indices[0] + 1, new_deployer)
-
-                migrations = ";".join(migrations)
-                migrations_f.seek(0)
-                migrations_f.write(migrations)
-                migrations_f.truncate()
-            account, password = self.get_first_account()
-            self.unlock_account(account, password)
-            command = "cd {}\\contracts && npx truffle migrate".format(self.datadir)
-            os.system(command)
