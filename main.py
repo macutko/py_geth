@@ -1,6 +1,6 @@
 import os
 
-from pyGeth.ContractInterface import ContractInterface
+from pyGeth.contract_interface import ContractInterface
 from pyGeth.node import Node
 
 
@@ -27,10 +27,18 @@ def main():
     account, password = node1.get_first_account()
     node1.w3.geth.personal.unlock_account(account, password)
 
-    contract = ContractInterface(w3=node1.w3,
-                                 datadir="C:\\Users\\matus\\Desktop\\Uni\\lvl_5\\disseration\\auto_gen\\node01")
-    contract.deploy_contract(
-        contract_location="C:\\Users\\matus\\Desktop\\Uni\\lvl_5\\disseration\\auto_gen\\hello_world.sol")
+    CI = ContractInterface(w3=node1.w3,
+                           datadir="C:\\Users\\matus\\Desktop\\Uni\\lvl_5\\disseration\\auto_gen\\node01")
+
+    m_con = CI.deploy_contract(
+        contract_file="C:\\Users\\matus\\Desktop\\Uni\\lvl_5\\disseration\\py-geth\\GUID.sol",
+        constructor_params=['2265072m'])[0]
+    print(m_con)
+
+    tx_hash = m_con.functions.setGrade("B3", "CSAI").transact()
+    tx_receipt = CI.w3.eth.waitForTransactionReceipt(tx_hash)
+    print(m_con.functions.getGrade("CSAI").call())
+    print(m_con.functions.getID().call())
 
 
 if __name__ == '__main__':
