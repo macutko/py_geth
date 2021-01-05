@@ -11,16 +11,25 @@ from web3 import Web3, HTTPProvider
 class Node:
     def __init__(self, port=30303, rpcport=8000,
                  datadir="\"C:\\Users\\matus\\Desktop\\Uni\\lvl 5\\disseration\\manual_install_geth\\node01\"",
-                 name="Node01", netowrkid=1900, genesisFile=''):
+                 name="Node01", netowrk_id=1900, genesis_file=''):
+        """
+
+        :param port:
+        :param rpcport:
+        :param datadir:
+        :param name:
+        :param netowrk_id:
+        :param genesis_file:
+        """
         self._check_for_geth()
         self.port = port
         self.rpcport = rpcport
         self.datadir = datadir
         self.name = name
-        self.networkid = netowrkid
+        self.network_id = netowrk_id
         self.process = None
         self.http = "http://127.0.0.1:{}".format(rpcport)
-        self.genesisFile = genesisFile if genesisFile != '' else None
+        self.genesisFile = genesis_file if genesis_file != '' else None
         self._create_node()
         self.w3 = None
 
@@ -29,7 +38,7 @@ class Node:
                   "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
                   "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
                                                                          str(self.datadir),
-                                                                         str(self.port), str(self.networkid))
+                                                                         str(self.port), str(self.network_id))
 
         self.process = Process(target=self._start_process, args=(command,))
         self.process.start()
@@ -93,7 +102,6 @@ class Node:
 
     def add_node(self, enode, localhost=True):
         if localhost:
-            enode_address = enode
             enode_address = enode.split("@")
             ending = enode_address[1].split("?")
             ip = ending[0].split(":")
