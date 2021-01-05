@@ -90,7 +90,7 @@ class Node:
                         data = json.load(account)
                         accounts_adresses[data['address']] = {"balance": "1000000000000000000"}
 
-            with open("./pyGeth/genesis.json") as template:
+            with open("./python_geth/genesis.json") as template:
                 data = json.load(template)
                 data['alloc'] = accounts_adresses
                 with open("{}\\config\\genesis.json".format(self.datadir), 'w+') as write_file:
@@ -131,7 +131,7 @@ class Node:
         if config_file is not None:
             template_file = config_file
         else:
-            template_file = "./pyGeth/truffle-config.txt"
+            template_file = "./python_geth/truffle-config.txt"
         os.system("cd {} && npx truffle init".format(self.datadir))
         os.system("rm {}\\truffle-config.js".format(self.datadir))
         with open(template_file, 'r') as template_f:

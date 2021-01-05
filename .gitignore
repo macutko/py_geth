@@ -18,6 +18,7 @@
 build/
 dist/
 pyGeth.egg-info/
+python_geth.egg-info/
 MANIFEST
 # Sensitive or high-churn files
 .idea/**/dataSources/
