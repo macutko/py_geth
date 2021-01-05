@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyGeth",
-    version="0.0.2",
+    version="0.0.3",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -14,12 +14,12 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
     ],
-    python_requires='>=3.6',
-    description='Pre-release of the unnoficial PyGeth',
+    python_requires='>=3.6,<4',
+    description='Pre-release of the unofficial PyGeth',
     author='macutko',
     author_email='matusgallik008@gmail.com',
-    install_requires=['web3'],
+    install_requires=['web3>=5.13.1'],
     url='https://github.com/macutko/py_geth',
-    download_url='https://github.com/macutko/py_geth/archive/0.0.2.tar.gz',
+    download_url='https://github.com/macutko/py_geth/archive/0.0.3.tar.gz',
     keywords=['geth', 'pyGeth', 'blockchain', 'ethereum', 'py-solc', 'python solidity', 'python blockchain'],
 )
