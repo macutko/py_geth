@@ -18,6 +18,7 @@ setuptools.setup(
     description='Pre-release of the unnoficial PyGeth',
     author='macutko',
     author_email='matusgallik008@gmail.com',
+    install_requires=['web3'],
     url='https://github.com/macutko/py_geth',
     download_url='https://github.com/macutko/py_geth/archive/0.0.2.tar.gz',
     keywords=['geth', 'pyGeth', 'blockchain', 'ethereum', 'py-solc', 'python solidity', 'python blockchain'],
