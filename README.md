@@ -1,1 +1,28 @@
-"# dissertation_py_geth" 
+# PyGeth
+
+PyGeth is a Python library for a quick setup of an Ethereum blockchain using Geth and for fast prototyping of contracts with truffle.
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install PyGeth.
+
+```bash
+pip install pyGeth
+```
+
+## Usage
+
+```python
+import foobar
+
+foobar.pluralize('word') # returns 'words'
+
+```
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
