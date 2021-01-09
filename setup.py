@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="python_geth",
-    version="1.0.14",
+    version="1.7.3",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -14,7 +14,8 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
     ],
-    data_files=[('templates', ['templates//genesis.json', 'templates//truffle-config.txt'])],
+    data_files=[('lib//site-packages//python_geth//templates',
+                 ['python_geth//templates//genesis.json', 'python_geth//templates//truffle-config.txt'])],
     python_requires='>=3.6,<4',
     description='Release of the unofficial python geth library',
     author='macutko',
