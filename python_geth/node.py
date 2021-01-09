@@ -87,7 +87,7 @@ class Node:
                     with open(os.path.join(root, file)) as account:
                         data = json.load(account)
                         accounts_adresses[data['address']] = {"balance": "1000000000000000000"}
-            fn = os.path.join(os.path.dirname(__file__), 'genesis.json')
+            fn = os.path.join(os.path.dirname(__file__), 'templates/genesis.json')
 
             with open(fn) as template:
                 data = json.load(template)
@@ -130,7 +130,7 @@ class Node:
         if config_file is not None:
             template_file = config_file
         else:
-            template_file = os.path.join(os.path.dirname(__file__), 'truffle-config.txt')
+            template_file = os.path.join(os.path.dirname(__file__), 'templates/truffle-config.txt')
 
         os.system("cd {} && npx truffle init".format(self.datadir))
         os.system("rm {}\\truffle-config.js".format(self.datadir))
