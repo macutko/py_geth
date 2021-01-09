@@ -2,10 +2,9 @@ import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-
 setuptools.setup(
     name="python_geth",
-    version="1.0.0",
+    version="1.5",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -14,8 +13,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
     ],
+    data_files=[('', ['genesis.json', 'truffle-config.txt'])],
     python_requires='>=3.6,<4',
-    description='Release of the unofficial PyGeth',
+    description='Release of the unofficial python geth library',
     author='macutko',
     author_email='matusgallik008@gmail.com',
     install_requires=['web3>=5.12.0'],

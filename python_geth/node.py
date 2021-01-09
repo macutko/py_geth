@@ -9,9 +9,7 @@ from web3 import Web3, HTTPProvider
 
 
 class Node:
-    def __init__(self, port=30303, rpcport=8000,
-                 datadir="\"C:\\Users\\matus\\Desktop\\Uni\\lvl 5\\disseration\\manual_install_geth\\node01\"",
-                 name="Node01", netowrk_id=1900, genesis_file=''):
+    def __init__(self, datadir, port=30303, rpcport=8000, name="Node01", netowrk_id=1900, genesis_file=''):
         """
 
         :param port:
@@ -89,8 +87,9 @@ class Node:
                     with open(os.path.join(root, file)) as account:
                         data = json.load(account)
                         accounts_adresses[data['address']] = {"balance": "1000000000000000000"}
+            fn = os.path.join(os.path.dirname(__file__), 'genesis.json')
 
-            with open("./python_geth/genesis.json") as template:
+            with open(fn) as template:
                 data = json.load(template)
                 data['alloc'] = accounts_adresses
                 with open("{}\\config\\genesis.json".format(self.datadir), 'w+') as write_file:
@@ -131,7 +130,8 @@ class Node:
         if config_file is not None:
             template_file = config_file
         else:
-            template_file = "./python_geth/truffle-config.txt"
+            template_file = os.path.join(os.path.dirname(__file__), 'truffle-config.txt')
+
         os.system("cd {} && npx truffle init".format(self.datadir))
         os.system("rm {}\\truffle-config.js".format(self.datadir))
         with open(template_file, 'r') as template_f:
