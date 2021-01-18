@@ -29,7 +29,7 @@ class PostInstallCommand(install):
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.8",
+    version="1.7.9",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -46,6 +46,7 @@ setuptools.setup(
         'develop': PostDevelopCommand,
         'install': PostInstallCommand,
     },
+    test_suite='python_geth.tests.suite.test_suite',
     author='macutko',
     author_email='matusgallik008@gmail.com',
     install_requires=['web3>=5.12.0'],
