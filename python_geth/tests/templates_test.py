@@ -1,11 +1,13 @@
 import json
+import os.path as path
 import unittest
 
 
 class TestTruffleTemplate(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        self.truffle_config_f = open("../templates/truffle-config.txt", "r")
+        text_file_path = path.dirname(path.abspath(__file__)) + '\\..\\templates\\truffle-config.txt'
+        self.truffle_config_f = open(text_file_path, "r")
         self.truffle_config = self.truffle_config_f.read()
 
     def tearDown(self):
@@ -24,7 +26,8 @@ class TestTruffleTemplate(unittest.TestCase):
 class TestGenesis(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        self.genesis_f = open("../templates/genesis.json", "r")
+        text_file_path = path.dirname(path.abspath(__file__)) + '\\..\\templates\\genesis.json'
+        self.genesis_f = open(text_file_path, "r")
         self.genesis = self.genesis_f.read()
 
     def tearDown(self):
