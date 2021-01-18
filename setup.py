@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.5",
+    version="1.7.6",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -26,5 +26,7 @@ setuptools.setup(
     keywords=['geth', 'pyGeth', 'blockchain', 'ethereum', 'py-solc', 'python solidity', 'python blockchain'],
 )
 
-print(
-    "Please consider filling out my thesis anonymous feedback form. https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
+raise Exception("All installed fine!" +
+                "Please consider filling out my thesis anonymous feedback form. "
+                "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
+                "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
