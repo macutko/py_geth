@@ -1,11 +1,37 @@
 import setuptools
+from setuptools.command.develop import develop
+from setuptools.command.install import install
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+class PostDevelopCommand(develop):
+    """Post-installation for development mode."""
+
+    def run(self):
+        raise Exception("All installed fine!" +
+                        "Please consider filling out my thesis anonymous feedback form. "
+                        "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
+                        "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
+
+        develop.run(self)
+
+
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+
+    def run(self):
+        raise Exception("All installed fine!" +
+                        "Please consider filling out my thesis anonymous feedback form. "
+                        "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
+                        "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
+        install.run(self)
+
+
 setuptools.setup(
     name="python_geth",
-    version="1.7.6",
+    version="1.7.7",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -18,6 +44,10 @@ setuptools.setup(
                  ['python_geth//templates//genesis.json', 'python_geth//templates//truffle-config.txt'])],
     python_requires='>=3.6,<4',
     description='Release of the unofficial python geth library',
+    cmdclass={
+        'develop': PostDevelopCommand,
+        'install': PostInstallCommand,
+    },
     author='macutko',
     author_email='matusgallik008@gmail.com',
     install_requires=['web3>=5.12.0'],
@@ -25,8 +55,3 @@ setuptools.setup(
     download_url='https://github.com/macutko/py_geth/archive/4.0.0.tar.gz',
     keywords=['geth', 'pyGeth', 'blockchain', 'ethereum', 'py-solc', 'python solidity', 'python blockchain'],
 )
-
-raise Exception("All installed fine!" +
-                "Please consider filling out my thesis anonymous feedback form. "
-                "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
-                "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
