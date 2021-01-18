@@ -10,28 +10,26 @@ class PostDevelopCommand(develop):
     """Post-installation for development mode."""
 
     def run(self):
-        raise Exception("All installed fine!" +
-                        "Please consider filling out my thesis anonymous feedback form. "
-                        "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
-                        "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
-
-        develop.run(self)
+        print("All installed fine!" +
+              "Please consider filling out my thesis anonymous feedback form. "
+              "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
+              "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
 
 
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
 
     def run(self):
-        raise Exception("All installed fine!" +
-                        "Please consider filling out my thesis anonymous feedback form. "
-                        "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
-                        "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
+        print("All installed fine!" +
+              "Please consider filling out my thesis anonymous feedback form. "
+              "https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE"
+              "-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
         install.run(self)
 
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.7",
+    version="1.7.8",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
