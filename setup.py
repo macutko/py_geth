@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.4",
+    version="1.7.5",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
