@@ -11,14 +11,22 @@ from web3 import Web3, HTTPProvider
 class Node:
     def __init__(self, datadir, port=30303, rpcport=8000, name="Node01", netowrk_id=1900, genesis_file=''):
         """
+        Create a Node object
 
-        :param port:
-        :param rpcport:
-        :param datadir:
-        :param name:
-        :param netowrk_id:
-        :param genesis_file:
+        :param datadir: Absolute path to a directory to be used for data of the node
+        :type datadir: str
+        :param port: Geth port
+        :type port: int
+        :param rpcport: Geth RpcPort (old: http port)
+        :type rpcport: int
+        :param name: Name of your node
+        :type name:str
+        :param netowrk_id: The id of your ETH network
+        :type netowrk_id: int
+        :param genesis_file: Absolute path to genesis file
+        :type genesis_file: str
         """
+
         self._check_for_geth()
         self.port = port
         self.rpcport = rpcport
@@ -32,6 +40,11 @@ class Node:
         self.w3 = None
 
     def start_node(self):
+        """
+        Starts the node in a process
+        :return: null
+        :rtype: null
+        """
         command = "geth --identity {0} --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" --port " \
                   "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
                   "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),

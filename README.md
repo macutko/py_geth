@@ -1,3 +1,8 @@
+# HELP NEEDED
+
+...with my dissertation. It is only 10 questions. As this package is part of my thesis it would be much appreciated if you spent a
+few moments on filling out these [10 anonymous questions](https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u). Thanks! 
+
 # PyGeth
 
 PyGeth is a Python library for a quick setup of an Ethereum blockchain using Geth and for fast prototyping of contracts with truffle.

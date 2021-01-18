@@ -25,3 +25,6 @@ setuptools.setup(
     download_url='https://github.com/macutko/py_geth/archive/4.0.0.tar.gz',
     keywords=['geth', 'pyGeth', 'blockchain', 'ethereum', 'py-solc', 'python solidity', 'python blockchain'],
 )
+
+print(
+    "Please consider filling out my thesis anonymous feedback form. https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u")
