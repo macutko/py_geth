@@ -1,10 +1,12 @@
 import unittest
 
-from python_geth.tests import templates_test
+from python_geth.tests import templates_test, node_test
 
 
 def test_suite():
+    """Add all your tests here"""
     suite = unittest.TestLoader().loadTestsFromModule(templates_test)
+    suite.addTests(unittest.TestLoader().loadTestsFromModule(node_test))
     return suite
 
 
