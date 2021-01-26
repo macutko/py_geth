@@ -55,6 +55,13 @@ class Node:
         self.process.start()
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
 
+    def stop_node(self):
+        """
+        Stops the nodes process
+        """
+        if self.process is not None:
+            return self.process.terminate()
+
     @staticmethod
     def _start_process(command):
         return os.system(command)
@@ -74,6 +81,9 @@ class Node:
             exit(1)
 
     def _create_node(self):
+        """
+        Wrapper method called on __init__ to create a geth node.
+        """
         try:
             os.mkdir("{}".format(self.datadir))
         except FileExistsError:
@@ -113,6 +123,17 @@ class Node:
             os.system("geth --datadir \"{0}\" init \"{1}\" ".format(self.datadir, self.genesisFile))
 
     def add_node(self, enode, localhost=True):
+        """
+        Add a node to the chain.
+
+        :param enode: The enode address of the node to be added
+        :type enode: string
+        :param localhost: whether the node is running on localhost or not
+        :type localhost: bool
+        TODO: Add support for not localhost
+        :return: success indicator
+        :rtype: bool
+        """
         if localhost:
             enode_address = enode.split("@")
             ending = enode_address[1].split("?")
@@ -130,6 +151,13 @@ class Node:
             return False
 
     def get_first_account(self):
+        """
+        Get the first account that gets created as part of the create node function.
+        This account can be used to interface with geth for easy contract deployment.
+
+        :return: string of account number, string of password
+        :rtype: str,str
+        """
         account = self.w3.eth.accounts[0]
         if os.path.exists("{0}\\pass_first.txt".format(self.datadir)):
             with open("{0}\\pass_first.txt".format(self.datadir), "r") as pass_file:
@@ -140,6 +168,14 @@ class Node:
         return account, passwd.strip()
 
     def configure_truffle(self, config_file=None):
+        """
+        Set up default truffle to be ready to deploy contracts. This method needs to be called before
+        creating contract interfaces.
+
+        :param config_file: optional absolute path to config file to be supplied in case of specific config
+        :type config_file: str
+
+        """
         if config_file is not None:
             template_file = config_file
         else:

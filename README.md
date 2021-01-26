@@ -65,6 +65,43 @@ CI = ContractInterface(w3=node1.w3, datadir="C:\\Users\\macutko\\Desktop\\node01
 m_con = CI.deploy_contract(contract_file="C:\\Users\\macutko\\Desktop\\GUID.sol",constructor_params=['2265072m'])[0]
 ```
 
+### Example Contract
+Example contract:
+```solidity
+pragma solidity ^0.4.24;
+
+contract HelloWorld {
+
+    string saySomething;
+
+    constructor() public  {
+        saySomething = "Hello World!";
+    }
+
+    function speak() public constant returns(string itSays) {
+        return saySomething;
+    }
+
+    function saySomethingElse(string newSaying) public  returns(bool success) {
+        saySomething = newSaying;
+        return true;
+    }
+
+}
+```
+tx_hash = m_con.functions.setGrade("B3", "CSAI").transact()
+    tx_receipt = CI.w3.eth.waitForTransactionReceipt(tx_hash)
+    
+After deploying, to get the saySomething variable. 
+```python
+print(m_con.functions.speack.call())
+```
+And to set a new message.
+```python
+tx_hash = m_con.functions.saySomethingElse("Not Hello World").transact()
+tx_receipt = CI.w3.eth.waitForTransactionReceipt(tx_hash)
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

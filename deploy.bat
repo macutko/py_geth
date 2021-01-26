@@ -4,3 +4,5 @@ rm -rf python_geth.egg-info/
 bump2version --allow-dirty patch setup.py
 python setup.py test sdist bdist_wheel
 python -m twine upload --repository pypi dist/*
+git ls-files | xargs npx cloc
+
