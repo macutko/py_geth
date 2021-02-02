@@ -1,7 +1,7 @@
 # HELP NEEDED
 
 ...with my dissertation. It is only 10 questions. As this package is part of my thesis it would be much appreciated if you spent a
-few moments on filling out these [10 anonymous questions](https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u). Thanks! 
+few moments on filling out these [11 anonymous questions](https://forms.office.com/Pages/ResponsePage.aspx?id=KVxybjp2UE-B8i4lTwEzyCwPEuOy1S1OrnjnPHZzTHxURE5WNFNYV1BYTEFTSzVJVVdFREM4RFBOWC4u). Thanks! 
 
 # PyGeth
 
@@ -89,8 +89,7 @@ contract HelloWorld {
 
 }
 ```
-tx_hash = m_con.functions.setGrade("B3", "CSAI").transact()
-    tx_receipt = CI.w3.eth.waitForTransactionReceipt(tx_hash)
+
     
 After deploying, to get the saySomething variable. 
 ```python
