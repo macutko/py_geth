@@ -51,8 +51,6 @@ class Node:
                                                                          str(self.datadir),
                                                                          str(self.port), str(self.network_id))
         self.process = Popen(command)
-        # self.process = Process(target=self._start_process, args=(command,))
-        # self.process.start()
         print('STARTED:', self.process, self.process.poll())
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
 
@@ -63,15 +61,12 @@ class Node:
         try:
             print("Killing process")
             self.process.kill()
+            self.process.wait()
         except Exception as e:
             print(e)
             if os.name == 'nt':
                 print("Killing process failed: Forcing!")
                 os.system("taskkill /im geth.exe /f")
-
-    @staticmethod
-    def _start_process(command):
-        return os.system(command)
 
     @staticmethod
     def _check_for_geth():
