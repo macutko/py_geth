@@ -29,7 +29,7 @@ class PostInstallCommand(install):
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.22",
+    version="1.7.23",
     long_description=long_description,
     long_description_content_type="text/markdown",
     test_suite='python_geth.tests.get_suite',
