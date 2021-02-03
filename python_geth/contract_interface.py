@@ -21,9 +21,9 @@ class ContractInterface:
         return r
 
     def __amend_migrations(self, contract_names, constructor_params):
-        if not isinstance(constructor_params, list):
+        if not isinstance(constructor_params, list) and constructor_params is not None:
             raise TypeError("Params of constructor should be passed as list")
-        if len(contract_names) != len(constructor_params):
+        if constructor_params is not None and len(contract_names) != len(constructor_params):
             raise Warning(
                 'contract_names and constructor_params should have the same length! If a contract does not need '
                 'constructor params pass an empty string in its place')
@@ -36,11 +36,11 @@ class ContractInterface:
 
             for i in range(len(contract_names)):
                 contract_name = contract_names[i]
-                constructor_param = constructor_params[i]
 
-                if constructor_param == '':
+                if constructor_params is None:
                     new_deployer += " deployer.deploy({0}) ".format(contract_name)
                 else:
+                    constructor_param = constructor_params[i]
                     new_deployer += "deployer.deploy({0},\"{1}\"); ".format(contract_name, constructor_param)
                 new_const += "const {0} = artifacts.require(\"{0}\"); ".format(contract_name)
 

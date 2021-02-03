@@ -2,8 +2,8 @@ import hashlib
 import json
 import os
 from datetime import datetime
-from multiprocessing import Process
 from shutil import which
+from subprocess import Popen
 
 from web3 import Web3, HTTPProvider
 
@@ -50,17 +50,24 @@ class Node:
                   "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
                                                                          str(self.datadir),
                                                                          str(self.port), str(self.network_id))
-
-        self.process = Process(target=self._start_process, args=(command,))
-        self.process.start()
+        self.process = Popen(command)
+        # self.process = Process(target=self._start_process, args=(command,))
+        # self.process.start()
+        print('STARTED:', self.process, self.process.poll())
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
 
     def stop_node(self):
         """
         Stops the nodes process
         """
-        if self.process is not None:
-            return self.process.terminate()
+        try:
+            print("Killing process")
+            self.process.kill()
+        except Exception as e:
+            print(e)
+            if os.name == 'nt':
+                print("Killing process failed: Forcing!")
+                os.system("taskkill /im geth.exe /f")
 
     @staticmethod
     def _start_process(command):
