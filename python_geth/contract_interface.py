@@ -78,7 +78,10 @@ class ContractInterface:
             self.__amend_migrations(contract_names, constructor_params)
 
             command = "cd {}\\contracts && npx truffle migrate".format(self.datadir)
-            os.system(command)
+            try:
+                os.system(command)
+            except Exception as e:
+                print('Compilation failed: \n {}'.format(e))
 
             if default_account:
                 self.set_default_account()
