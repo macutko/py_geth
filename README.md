@@ -56,13 +56,17 @@ To be able to quickly deploy contracts and interact with them first configure tr
 node1.configure_truffle()
 ```
 
-To deploy a contract unlock an account, create a Contract Interface instance and deploy a contract.
+To deploy a contract unlock an account, create a Contract Interface instance and deploy a contract. highly recommended to wrap deployment into a try
+and accept block. This is to prevent zombie processes.
 ```python
 account, password = node1.get_first_account()
 node1.w3.geth.personal.unlock_account(account, password)
 
 CI = ContractInterface(w3=node1.w3, datadir="C:\\Users\\macutko\\Desktop\\node01")
-m_con = CI.deploy_contract(contract_file="C:\\Users\\macutko\\Desktop\\GUID.sol",constructor_params=['2265072m'])[0]
+try:
+    m_con = CI.deploy_contract(contract_file="C:\\Users\\macutko\\Desktop\\GUID.sol",constructor_params=['2265072m'])[0]
+except:
+    node1.stop_node()
 ```
 
 ### Example Contract

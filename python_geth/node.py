@@ -1,3 +1,4 @@
+import atexit
 import hashlib
 import json
 import os
@@ -53,6 +54,7 @@ class Node:
         self.process = Popen(command)
         print('STARTED:', self.process, self.process.poll())
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
+        atexit.register(self.stop_node)
 
     def stop_node(self):
         """
