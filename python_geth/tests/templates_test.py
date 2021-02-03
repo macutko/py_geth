@@ -45,7 +45,10 @@ class TestGenesis(unittest.TestCase):
                          "    \"eip150Hash\": " \
                          "\"0x0000000000000000000000000000000000000000000000000000000000000000\"," \
                          "    \"eip155Block\": 0,    \"eip158Block\": 0,    \"byzantiumBlock\": 0," \
-                         "    \"constantinopleBlock\": 0,    \"petersburgBlock\": 0,    \"ethash\": {}  }} "
+                         "    \"constantinopleBlock\": 0,    \"petersburgBlock\": 0,    \"ethash\": {}, " \
+                         "\"isQuorum\": true," \
+                         "\"maxCodeSize\": 128," \
+                         "\"txnSizeLimit\": 128  }} "
 
         assert json.loads(self.genesis) == json.loads(string_genesis)
 

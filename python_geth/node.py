@@ -65,6 +65,7 @@ class Node:
             self.process.kill()
             self.process.wait()
         except Exception as e:
+            print('PLease report this!')
             print(e)
             if os.name == 'nt':
                 print("Killing process failed: Forcing!")

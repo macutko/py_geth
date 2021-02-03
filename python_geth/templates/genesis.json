@@ -18,6 +18,9 @@
     "byzantiumBlock": 0,
     "constantinopleBlock": 0,
     "petersburgBlock": 0,
-    "ethash": {}
+    "ethash": {},
+    "isQuorum": true,
+    "maxCodeSize": 128,
+    "txnSizeLimit": 128
   }
 }
