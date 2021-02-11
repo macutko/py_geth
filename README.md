@@ -104,6 +104,9 @@ And to set a new message.
 tx_hash = m_con.functions.saySomethingElse("Not Hello World").transact()
 tx_receipt = CI.w3.eth.waitForTransactionReceipt(tx_hash)
 ```
+## Pipeline
+- BUG: Fix the start of an already created node
+- TEST:Connection from different device  
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
