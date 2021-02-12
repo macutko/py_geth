@@ -11,7 +11,7 @@ PyGeth is a Python library for a quick setup of an Ethereum blockchain using Get
 
 ### Prerequisites
 
-To be able to run this package, please install [Geth](https://geth.ethereum.org/downloads/) and [Npm (5.2.0 or higher)](https://www.npmjs.com/) 
+To be able to run this package, please install [Geth](https://geth.ethereum.org/downloads/) and [Npm (5.2.0 or higher)](https://nodejs.org/en/) 
 and add them to your Path. 
 **Note:** This has solely been tested on Windows.
 
