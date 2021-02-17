@@ -2,6 +2,8 @@ import atexit
 import hashlib
 import json
 import os
+import subprocess
+import time
 from datetime import datetime
 from shutil import which
 from subprocess import Popen
@@ -46,15 +48,25 @@ class Node:
         :return: null
         :rtype: null
         """
-        command = "geth --identity {0} --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" --port " \
+        command = "exec geth --identity {0} --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" --port " \
                   "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
                   "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
                                                                          str(self.datadir),
                                                                          str(self.port), str(self.network_id))
-        self.process = Popen(command)
-        print('STARTED:', self.process, self.process.poll())
+        self.process = Popen(command, stdout=subprocess.PIPE, shell=True)
+
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
-        atexit.register(self.stop_node)
+        counter = 0
+
+        # This is a brute force way of waiting for an async call
+        while not self.w3.isConnected() or counter >= 5:
+            time.sleep(1)
+            counter += 1
+        if self.w3.isConnected():
+            print('STARTED PID: ', self.process.pid)
+            atexit.register(self.stop_node)
+        else:
+            self.stop_node()
 
     def stop_node(self):
         """

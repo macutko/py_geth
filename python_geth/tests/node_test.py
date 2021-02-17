@@ -16,6 +16,8 @@ class TestNodeClass(unittest.TestCase):
         os.system('rm -rf node01_test')
 
     def testW3(self):
+        print(self.node.w3)
+        print(self.node.w3.isConnected())
         assert self.node.w3.isConnected()
 
 

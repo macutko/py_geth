@@ -6,7 +6,7 @@ import unittest
 class TestTruffleTemplate(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        text_file_path = path.dirname(path.abspath(__file__)) + '\\..\\templates\\truffle-config.txt'
+        text_file_path = path.dirname(path.abspath(__file__)) + '/../templates/truffle-config.txt'
         self.truffle_config_f = open(text_file_path, "r")
         self.truffle_config = self.truffle_config_f.read()
 
@@ -26,7 +26,7 @@ class TestTruffleTemplate(unittest.TestCase):
 class TestGenesis(unittest.TestCase):
     def setUp(self):
         """Call before every test case."""
-        text_file_path = path.dirname(path.abspath(__file__)) + '\\..\\templates\\genesis.json'
+        text_file_path = path.dirname(path.abspath(__file__)) + '/../templates/genesis.json'
         self.genesis_f = open(text_file_path, "r")
         self.genesis = self.genesis_f.read()
 
