@@ -29,7 +29,7 @@ class PostInstallCommand(install):
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.34",
+    version="1.7.35",
     long_description=long_description,
     long_description_content_type="text/markdown",
     test_suite='python_geth.tests.get_suite',
@@ -39,7 +39,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
     ],
-    data_files=[('',
+    data_files=[('templates/',
                  ['python_geth/templates/genesis.json', 'python_geth/templates/truffle-config.txt'])],
     python_requires='>=3.6,<4',
     description='Release of the unofficial python geth library',
