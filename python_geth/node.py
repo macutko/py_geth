@@ -108,13 +108,13 @@ class Node:
 
         if self.genesisFile is None:
             try:
-                os.mkdir("{}\\config".format(self.datadir))
+                os.mkdir("{}/config".format(self.datadir))
             except FileExistsError:
                 print("WARNING: The folder for the config exists, but will proceed to use it!")
 
             now = datetime.now()
             date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-            pass_path = "{0}\\pass_first.txt".format(self.datadir)
+            pass_path = "{0}/pass_first.txt".format(self.datadir)
             with open(pass_path, "w") as pass_file:
                 pass_file.write(hashlib.sha256(date_time.encode('utf-8')).hexdigest())
 
@@ -122,7 +122,7 @@ class Node:
 
             accounts_adresses = {}
 
-            for root, dirs, files in os.walk("{}\\keystore".format(self.datadir)):
+            for root, dirs, files in os.walk("{}/keystore".format(self.datadir)):
                 for file in files:
                     with open(os.path.join(root, file)) as account:
                         data = json.load(account)
@@ -132,10 +132,10 @@ class Node:
             with open(fn) as template:
                 data = json.load(template)
                 data['alloc'] = accounts_adresses
-                with open("{}\\config\\genesis.json".format(self.datadir), 'w+') as write_file:
+                with open("{}/config/genesis.json".format(self.datadir), 'w+') as write_file:
                     json.dump(data, write_file, indent=4)
 
-            os.system("geth --datadir \"{0}\" init \"{0}\\config\\genesis.json\" ".format(self.datadir))
+            os.system("geth --datadir \"{0}\" init \"{0}/config/genesis.json\" ".format(self.datadir))
         else:
             os.system("geth --datadir \"{0}\" init \"{1}\" ".format(self.datadir, self.genesisFile))
 
@@ -176,8 +176,8 @@ class Node:
         :rtype: str,str
         """
         account = self.w3.eth.accounts[0]
-        if os.path.exists("{0}\\pass_first.txt".format(self.datadir)):
-            with open("{0}\\pass_first.txt".format(self.datadir), "r") as pass_file:
+        if os.path.exists("{0}/pass_first.txt".format(self.datadir)):
+            with open("{0}/pass_first.txt".format(self.datadir), "r") as pass_file:
                 passwd = pass_file.read()
         else:
             passwd = ''
@@ -199,10 +199,10 @@ class Node:
             template_file = os.path.join(os.path.dirname(__file__), 'templates/truffle-config.txt')
 
         os.system("cd {} && npx truffle init".format(self.datadir))
-        os.system("rm {}\\truffle-config.js".format(self.datadir))
+        os.system("rm {}/truffle-config.js".format(self.datadir))
         with open(template_file, 'r') as template_f:
             template = template_f.read()
             template = template.replace('<PORT>', str(self.rpcport))
             template = template.replace('<FROM>', "\"{}\"".format(self.get_first_account()[0]))
-            with open('{}\\truffle-config.js'.format(self.datadir), 'w+') as original_config_f:
+            with open('{}/truffle-config.js'.format(self.datadir), 'w+') as original_config_f:
                 original_config_f.write(template)

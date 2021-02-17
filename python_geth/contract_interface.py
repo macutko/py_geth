@@ -28,7 +28,7 @@ class ContractInterface:
                 'contract_names and constructor_params should have the same length! If a contract does not need '
                 'constructor params pass an empty string in its place')
 
-        with open('{}\\migrations\\1_initial_migration.js'.format(self.datadir), 'r+') as migrations_f:
+        with open('{}/migrations/1_initial_migration.js'.format(self.datadir), 'r+') as migrations_f:
             migrations = migrations_f.read()
             migrations = migrations.split(";")
             new_deployer = ''
@@ -71,13 +71,13 @@ class ContractInterface:
         if not os.path.exists(contract_file):
             raise FileNotFoundError("Cannot find the file specified {}".format(contract_file))
         else:
-            os.system('cp {} {}\\contracts'.format(contract_file, self.datadir))
+            os.system('cp {} {}/contracts'.format(contract_file, self.datadir))
 
             contract_names = self.__get__contract_names(contract_file)
 
             self.__amend_migrations(contract_names, constructor_params)
 
-            command = "cd {}\\contracts && npx truffle migrate".format(self.datadir)
+            command = "cd {}/contracts && npx truffle migrate".format(self.datadir)
             try:
                 os.system(command)
             except Exception as e:
@@ -88,7 +88,7 @@ class ContractInterface:
 
             r = []
             for contract in contract_names:
-                with open('{}\\build\\contracts\\{}.json'.format(self.datadir, contract)) as f:
+                with open('{}/build/contracts/{}.json'.format(self.datadir, contract)) as f:
                     data = json.load(f)
                     r.append(self.w3.eth.contract(address=data['networks'][networkid]['address'],
                                                   abi=data['abi']))
