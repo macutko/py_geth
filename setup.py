@@ -29,12 +29,13 @@ class PostInstallCommand(install):
 
 setuptools.setup(
     name="python_geth",
-    version="1.7.38",
+    version="1.7.39",
     long_description=long_description,
     long_description_content_type="text/markdown",
     test_suite='python_geth.tests.get_suite',
     packages=setuptools.find_packages(),
-    package_data={'python-geth': ['templates/*.json', 'templates/*.txt']},
+    package_data={'': ['templates/*.json', 'templates/*.txt']},
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
