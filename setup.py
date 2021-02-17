@@ -41,8 +41,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
     ],
-    data_files=[('templates/',
-                 ['python_geth/templates/genesis.json', 'python_geth/templates/truffle-config.txt'])],
     python_requires='>=3.6,<4',
     description='Release of the unofficial python geth library',
     cmdclass={
