@@ -5,7 +5,7 @@ import os
 import subprocess
 import time
 from datetime import datetime
-from shutil import which
+from shutil import which, copyfile
 from subprocess import Popen
 
 from web3 import Web3, HTTPProvider
@@ -48,12 +48,25 @@ class Node:
         :return: null
         :rtype: null
         """
-        command = "exec geth --identity {0} --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" --port " \
-                  "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
-                  "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
-                                                                         str(self.datadir),
-                                                                         str(self.port), str(self.network_id))
-        self.process = Popen(command, stdout=subprocess.PIPE, shell=True)
+        if os.name == 'nt':
+            command = "geth --identity {0} -cache=1024 --syncmode \"fast\" --http --http.port {1} --http.corsdomain \"*\" " \
+                      "--datadir \"{2}\" --port " \
+                      "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
+                      "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
+                                                                             str(self.datadir),
+                                                                             str(self.port), str(self.network_id))
+
+            self.process = Popen(command)
+
+        else:
+            command = "exec geth --identity {0}  -cache=1024 --syncmode \"fast\" --http --http.port {1} --http.corsdomain \"*\" --datadir \"{2}\" " \
+                      "--port " \
+                      "{3} --nodiscover --http.api  \"eth,net,web3,personal,miner,admin\" --networkid {4} --nat " \
+                      "\"any\" --ipcdisable --allow-insecure-unlock ".format(str(self.name), str(self.rpcport),
+                                                                             str(self.datadir),
+                                                                             str(self.port), str(self.network_id))
+
+            self.process = Popen(command, stdout=subprocess.PIPE, shell=True)
 
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
         counter = 0
@@ -147,7 +160,6 @@ class Node:
         :type enode: string
         :param localhost: whether the node is running on localhost or not
         :type localhost: bool
-        TODO: Add support for not localhost
         :return: success indicator
         :rtype: bool
         """
@@ -166,6 +178,9 @@ class Node:
             return True
         else:
             return False
+
+    def add_foreign_account(self, key, name):
+        copyfile(key, "{}/keystore/{}".format(self.datadir, name))
 
     def get_first_account(self):
         """

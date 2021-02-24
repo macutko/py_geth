@@ -59,6 +59,12 @@ class ContractInterface:
     def set_default_account(self):
         self.w3.eth.defaultAccount = self.w3.eth.accounts[0]
 
+    def get_contract_from_source(self, source, networkid='1900'):
+        with open(source) as f:
+            data = json.load(f)
+            return self.w3.eth.contract(address=data['networks'][networkid]['address'],
+                                        abi=data['abi'])
+
     def deploy_contract(self, contract_file, constructor_params=None, networkid='1900', default_account=True):
         """
         Make sure your account is unlocked!
