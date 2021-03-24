@@ -45,8 +45,6 @@ class Node:
     def start_node(self):
         """
         Starts the node in a process
-        :return: null
-        :rtype: null
         """
         if os.name == 'nt':
             command = "geth --identity {0} -cache=1024 --syncmode \"fast\" --http --http.port {1} --http.corsdomain \"*\" " \
@@ -71,7 +69,7 @@ class Node:
         self.w3 = Web3(HTTPProvider('http://127.0.0.1:{}'.format(self.rpcport)))
         counter = 0
 
-        # This is a brute force way of waiting for an async call
+        # This is a brute force way of waiting for an async call and timeout
         while not self.w3.isConnected() or counter >= 5:
             time.sleep(1)
             counter += 1
@@ -98,6 +96,9 @@ class Node:
 
     @staticmethod
     def _check_for_geth():
+        """
+        Helper method to check if geth is installed and added to path
+        """
         if not which("geth") is not None:
             print("Geth needs to be installed and added to path! ")
             print("Exiting!")
@@ -105,6 +106,9 @@ class Node:
 
     @staticmethod
     def _check_for_npm():
+        """
+        Helper method to check if npm is installed and added to path
+        """
         if not which("npx") is not None:
             print("Npm needs to be installed and added to path! ")
             print("Exiting!")
@@ -112,7 +116,7 @@ class Node:
 
     def _create_node(self):
         """
-        Wrapper method called on __init__ to create a geth node.
+        Wrapper method called on __init__ to create a geth node. This generates the genesis file and first accounts
         """
         try:
             os.mkdir("{}".format(self.datadir))
@@ -179,8 +183,18 @@ class Node:
         else:
             return False
 
-    def add_foreign_account(self, key, name):
+    def add_foreign_account(self, key, name, password):
+        """
+        Function to add an account created on a different node.
+
+        :return: private key of the account
+        :rtype: str
+        """
         copyfile(key, "{}/keystore/{}".format(self.datadir, name))
+        with open(key) as keyfile:
+            encrypted_key = keyfile.read()
+            private_key = self.w3.eth.account.decrypt(encrypted_key, password)
+        return private_key
 
     def get_first_account(self):
         """

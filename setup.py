@@ -39,7 +39,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: Microsoft :: Windows",
+        "Operating System :: OS Independent",
     ],
     python_requires='>=3.6,<4',
     description='Release of the unofficial python geth library',
